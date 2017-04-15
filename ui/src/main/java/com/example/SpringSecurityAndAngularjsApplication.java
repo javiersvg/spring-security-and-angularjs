@@ -3,6 +3,7 @@ package com.example;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,16 +19,12 @@ import java.util.Map;
 
 @SpringBootApplication
 @RestController
+@EnableZuulProxy
 public class SpringSecurityAndAngularjsApplication {
 
     @RequestMapping("/user")
     public Principal user(Principal user) {
         return user;
-    }
-
-    @RequestMapping("/token")
-    public Map<String,String> token(HttpSession session) {
-        return Collections.singletonMap("token", session.getId());
     }
 
     public static void main(String[] args) {

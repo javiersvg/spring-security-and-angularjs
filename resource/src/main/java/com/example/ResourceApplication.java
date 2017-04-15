@@ -2,11 +2,8 @@ package com.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.session.web.http.HeaderHttpSessionStrategy;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,57 +11,48 @@ import java.util.UUID;
 
 @SpringBootApplication
 @RestController
-class ResourceApplication extends WebSecurityConfigurerAdapter {
+public class ResourceApplication extends WebSecurityConfigurerAdapter {
 
-	@RequestMapping("/")
-	@CrossOrigin(origins="*", maxAge=3600,
-			allowedHeaders={"x-auth-token", "x-requested-with"})
-	public Message home() {
-		return new Message("Hello World");
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ResourceApplication.class, args);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(ResourceApplication.class, args);
-	}
+    @RequestMapping("/")
+    public Message home() {
+        return new Message("Hello World");
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().authorizeRequests()
-                .anyRequest().authenticated();
+        http.httpBasic().disable();
+        http.authorizeRequests().anyRequest().authenticated();
     }
-
-    @Bean
-    HeaderHttpSessionStrategy sessionStrategy() {
-        return new HeaderHttpSessionStrategy();
-    }
-
-
 }
 
 class Message {
-	private String id = UUID.randomUUID().toString();
-	private String content;
+    private String id = UUID.randomUUID().toString();
+    private String content;
 
-	public Message(String content) {
-		this.content = content;
-	}
+    public Message(String content) {
+        this.content = content;
+    }
 
-	public Message() {
-	}
+    public Message() {
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 }
