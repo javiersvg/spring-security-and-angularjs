@@ -3,6 +3,7 @@ package com.example;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -18,32 +19,19 @@ import java.util.Collections;
 import java.util.Map;
 
 @SpringBootApplication
-@RestController
 @EnableZuulProxy
-public class SpringSecurityAndAngularjsApplication {
-
-    @RequestMapping("/user")
-    public Principal user(Principal user) {
-        return user;
-    }
+@EnableOAuth2Sso
+public class SpringSecurityAndAngularjsApplication extends WebSecurityConfigurerAdapter {
 
     public static void main(String[] args) {
 		SpringApplication.run(SpringSecurityAndAngularjsApplication.class, args);
 	}
 
-    @Configuration
-    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-    protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .httpBasic()
-                    .and()
-                    .authorizeRequests()
-                    .antMatchers("/index.html", "/home.html", "/login.html", "/").permitAll()
-                    .anyRequest().authenticated().and()
-                    .csrf()
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-        }
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/index.html", "/home.html", "/")
+                .permitAll().anyRequest().authenticated().and()
+                .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
 }

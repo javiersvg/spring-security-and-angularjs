@@ -6,9 +6,19 @@ spring:
 security:
   user:
     password: password
+  oauth2:
+    client:
+      accessTokenUri: http://localhost:9999/uaa/oauth/token
+      userAuthorizationUri: http://localhost:9999/uaa/oauth/authorize
+      clientId: acme
+      clientSecret: acmesecret
+    resource:
+      userInfoUri: http://localhost:9999/uaa/user
 zuul:
   routes:
     resource:
       path: /resource/**
       url: http://localhost:9000
-      sensitive-headers:
+    user:
+      path: /user/**
+      url: http://localhost:9999/uaa/user
