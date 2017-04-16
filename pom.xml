@@ -19,9 +19,10 @@
 	</parent>
 
     <modules>
-        <module>authserver</module>
+        <module>gateway</module>
         <module>ui</module>
         <module>resource</module>
+		<module>admin</module>
     </modules>
 
 

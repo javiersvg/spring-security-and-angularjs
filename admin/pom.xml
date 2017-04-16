@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.example</groupId>
-	<artifactId>ui</artifactId>
+	<artifactId>admin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>ui</name>
+	<name>admin</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -38,12 +38,12 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
 		<dependency>
@@ -130,6 +130,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>
