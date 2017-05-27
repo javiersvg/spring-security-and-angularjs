@@ -17,15 +17,8 @@ angular.module('hello', [ 'ngRoute' ])
 
      var authenticate = function(credentials, callback) {
 
-       var headers = credentials ? {
-         authorization : "Basic "
-             + btoa(credentials.username + ":"
-                 + credentials.password)
-       } : {};
-
-       $http.get('user', {
-         headers : headers
-       }).then(function(response) {
+       $http.get('user')
+       .then(function(response) {
          var data = response.data;
          if (data.name) {
            self.authenticated = true;
@@ -46,20 +39,6 @@ angular.module('hello', [ 'ngRoute' ])
      authenticate();
 
      self.credentials = {};
-
-     self.login = function() {
-       authenticate(self.credentials, function() {
-         if (self.authenticated) {
-           console.log("Login succeeded")
-           self.error = false;
-           self.authenticated = true;
-         } else {
-           console.log("Login failed")
-           self.error = true;
-           self.authenticated = false;
-         }
-       });
-     };
 
      self.logout = function() {
        $http.post('logout', {}).finally(function() {

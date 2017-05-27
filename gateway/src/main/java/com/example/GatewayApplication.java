@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -23,6 +24,7 @@ import java.util.Map;
 @SpringBootApplication
 @EnableZuulProxy
 @RestController
+@EnableOAuth2Sso
 public class GatewayApplication {
 
     @RequestMapping("/user")
@@ -33,11 +35,6 @@ public class GatewayApplication {
                 .getAuthorities()));
         return map;
     }
-
-	@RequestMapping("/login")
-	public String login() {
-		return "redirect:/home";
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(GatewayApplication.class, args);
@@ -50,25 +47,14 @@ public class GatewayApplication {
 		protected void configure(HttpSecurity http) throws Exception {
 			// @formatter:off
 			http
-					.httpBasic().and()
 					.logout().and()
 					.authorizeRequests()
-					.antMatchers("/index.html", "/login", "/").permitAll()
+					.antMatchers("/index.html", "/login", "/uaa/oauth/authorize", "/").permitAll()
 					.anyRequest().authenticated()
 					.and()
 					.csrf()
 					.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 			// @formatter:on
-		}
-
-		@Autowired
-		public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-			auth.inMemoryAuthentication()
-					.withUser("user").password("password").roles("USER")
-					.and()
-					.withUser("admin").password("admin").roles("USER", "ADMIN", "READER", "WRITER")
-					.and()
-					.withUser("audit").password("audit").roles("USER", "ADMIN", "READER");
 		}
 	}
 

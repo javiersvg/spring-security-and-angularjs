@@ -3,16 +3,28 @@ server:
 zuul:
   routes:
     ui:
-      url: http://localhost:8081
+      url: http://ui:8081
       sensitive-headers:
     admin:
-      url: http://localhost:8082
+      url: http://admin:8082
       sensitive-headers:
     resource:
-      url: http://localhost:9000
+      url: http://resource:9000
       sensitive-headers:
 security:
-  sessions: ALWAYS
+  sessions: NEVER
+  oauth2:
+    client:
+      accessTokenUri: http://authserver:9999/uaa/oauth/token
+      userAuthorizationUri: http://localhost:9999/uaa/oauth/authorize
+      clientId: acme
+      clientSecret: acmesecret
+    resource:
+      userInfoUri: http://authserver:9999/uaa/user
 spring:
   session:
     store-type: redis
+  redis:
+    host: redis
+
+logging.level.org.springframework.security: DEBUG
