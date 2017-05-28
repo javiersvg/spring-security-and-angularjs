@@ -19,6 +19,11 @@
         <li ng-show="nav.authenticated"><a href="" ng-click="nav.logout()">logout</a></li>
     </ul>
 </div>
+<div class="container" ng-show="!nav.authenticated">
+    <a class="btn btn-primary" href="/login/authserver">Log In with Auth server</a>
+    <a class="btn btn-primary" href="/login/github">Log In with Github</a>
+    <a class="btn btn-primary" href="/login/facebook">Log In with Facebook</a>
+</div>
 <div class="container" ng-show="nav.authenticated">
     <a class="btn btn-primary" href="/ui/">Go To User Interface</a>
 </div>

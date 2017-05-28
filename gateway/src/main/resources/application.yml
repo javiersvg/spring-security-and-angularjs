@@ -13,7 +13,7 @@ zuul:
       sensitive-headers:
 security:
   sessions: NEVER
-  oauth2:
+authserver:
     client:
       accessTokenUri: http://authserver:9999/uaa/oauth/token
       userAuthorizationUri: http://localhost:9999/uaa/oauth/authorize
@@ -21,10 +21,28 @@ security:
       clientSecret: acmesecret
     resource:
       userInfoUri: http://authserver:9999/uaa/user
+facebook:
+    client:
+      clientId: 1862150880718015
+      clientSecret: 5ac16ab02a3c23c89f2882a0a1edd80d
+      accessTokenUri: https://graph.facebook.com/oauth/access_token
+      userAuthorizationUri: https://www.facebook.com/dialog/oauth
+      tokenName: oauth_token
+      authenticationScheme: query
+      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: https://graph.facebook.com/me
+github:
+  client:
+    clientId: 5119deed5ddf85c2c9df
+    clientSecret: 654b55e6816ee90b779b2122df1c757a25081b8d
+    accessTokenUri: https://github.com/login/oauth/access_token
+    userAuthorizationUri: https://github.com/login/oauth/authorize
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://api.github.com/user
 spring:
   session:
     store-type: redis
   redis:
     host: redis
-
-logging.level.org.springframework.security: DEBUG
