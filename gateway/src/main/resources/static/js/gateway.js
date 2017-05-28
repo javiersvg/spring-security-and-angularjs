@@ -1,14 +1,25 @@
 angular.module('hello', [ 'ngRoute' ])
   .config(function($routeProvider, $httpProvider) {
 
+    $routeProvider.when('/register', {
+          templateUrl : 'register.html',
+          controller : 'register',
+          controllerAs: 'controller'
+        }).otherwise('/');
+
     $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 
   })
-  .controller('home', function($http) {
+  .controller('register', function($http, $location) {
     var self = this;
-    $http.get('/resource/').then(function(response) {
-      self.greeting = response.data;
-    })
+
+    var userName;
+
+    self.register = function() {
+        $http.post('/user').then(function(response) {
+          $location.path("/");
+        });
+    }
   })
   .controller('navigation',
      function($rootScope, $http, $location) {
